@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const multer = require('multer')
 
-const upload = multer({ dest: 'pages/images/' })
+const upload = multer({ dest: 'pages/images/' }).single('fileFront')
 const app = express()
 
 app.use(express.static('pages'));
@@ -17,8 +17,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/pages/index.html'))
 })
 
-app.post('/upload', upload.single('fileFront'), (req, res) => {
-  console.log(req.body.fileFront)
+app.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      console.log('err', err)
+    }
+  })
+  console.log(req.body)
   console.log(req.files)
   res.end()
 })
