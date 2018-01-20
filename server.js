@@ -5,6 +5,8 @@ const path = require('path')
 
 const app = express()
 
+app.use(express.static('pages'));
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
